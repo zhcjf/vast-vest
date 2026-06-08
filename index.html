@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="张慧纯个人简历 - 北京科技大学硕士研究生" />
+  <link rel="preload" href="zjz.jpg" as="image" />
+  <title>个人简历 - 张慧纯</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', '思源黑体', sans-serif;
+      background: #f0f0f0; color: #2d2d2d; line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ========== Color Variables ========== */
+    :root {
+      --gray-50:  #f8f9fa; --gray-100: #f0f0f0; --gray-200: #e0e0e0;
+      --gray-300: #c8c8c8; --gray-400: #a0a0a0; --gray-500: #787878;
+      --gray-600: #585858; --gray-700: #3a3a3a; --gray-800: #2d2d2d;
+      --gray-900: #1a1a1a; --blue-400: #5b9bd5; --blue-500: #3a7bd5;
+      --blue-600: #2a5db0; --blue-700: #1e3f7a;
+      --accent: #00d4aa; --accent-light: #00f0c0;
+    }
+
+    /* ========== Navigation ========== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(26,26,26,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06); transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+    }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 0.25rem; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7); font-size: 0.875rem; font-weight: 500;
+      padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.25s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-links a.active { color: var(--accent); }
+    .nav-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+
+    /* ========== Section Common ========== */
+    section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--gray-800); }
+    .section-title span { color: var(--blue-500); }
+    .section-line {
+      width: 60px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--blue-500), var(--accent)); margin-bottom: 3rem;
+    }
+
+    /* ========== Hero Section ========== */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      background: linear-gradient(135deg, var(--gray-900) 0%, #1e2a3a 50%, var(--blue-700) 100%);
+      position: relative; overflow: hidden; padding-top: 64px;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -50%; right: -20%;
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -30%; left: -10%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(58,123,213,0.1) 0%, transparent 70%);
+    }
+    .hero-inner {
+      max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 4rem; width: 100%;
+    }
+    .hero-avatar {
+      width: 180px; height: 180px; border-radius: 24px;
+      background: linear-gradient(135deg, var(--blue-500), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; color: #fff; font-weight: 800;
+      flex-shrink: 0; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden; transition: transform 0.3s;
+    }
+    .hero-avatar img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-avatar:hover { transform: scale(1.03); }
+    .hero-content { flex: 1; }
+    .hero-greeting {
+      font-size: 1.1rem; color: var(--accent); font-weight: 500;
+      margin-bottom: 0.5rem; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .hero-name { font-size: 3.5rem; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 1rem; }
+    .hero-desc { font-size: 1.15rem; color: rgba(255,255,255,0.65); max-width: 560px; margin-bottom: 2rem; line-height: 1.8; }
+    .hero-tags { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .hero-tag {
+      padding: 0.35rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04);
+    }
+    .hero-contact { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-contact a {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.5rem; border-radius: 12px; font-size: 0.9rem; font-weight: 600; transition: all 0.3s;
+    }
+    .hero-contact .btn-primary {
+      background: linear-gradient(135deg, var(--blue-500), var(--accent));
+      color: #fff; box-shadow: 0 4px 20px rgba(58,123,213,0.3);
+    }
+    .hero-contact .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(58,123,213,0.4); }
+    .hero-contact .btn-outline { border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+    .hero-contact .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.3); font-size: 0.8rem; text-align: center; animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ========== About Section ========== */
+    .about { background: var(--gray-50); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .about-text p { color: var(--gray-600); margin-bottom: 1rem; font-size: 1rem; }
+    .about-text p strong { color: var(--gray-800); }
+    .portfolio-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1rem; padding: 0.6rem 1.5rem; border-radius: 10px;
+      background: var(--blue-500); color: #fff; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;
+    }
+    .portfolio-link:hover { background: var(--blue-600); transform: translateY(-1px); }
+    .skill-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .skill-tag {
+      padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500;
+      background: #fff; color: var(--gray-700); border: 1px solid var(--gray-200); transition: all 0.3s; cursor: default;
+    }
+    .skill-tag:hover { border-color: var(--blue-500); color: var(--blue-500); box-shadow: 0 4px 12px rgba(58,123,213,0.12); transform: translateY(-2px); }
+    .skill-tag.highlight { background: linear-gradient(135deg, var(--blue-500), var(--accent)); color: #fff; border-color: transparent; }
+
+    /* ========== Education Section ========== */
+    .education { background: var(--gray-100); }
+    .timeline { position: relative; padding-left: 3rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0.75rem; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, var(--blue-500), var(--accent));
+    }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -2.55rem; top: 0.35rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--blue-500); border: 3px solid var(--gray-100);
+      box-shadow: 0 0 0 4px rgba(58,123,213,0.15);
+    }
+    .timeline-card {
+      background: #fff; border-radius: 16px; padding: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--gray-200); transition: all 0.3s;
+    }
+    .timeline-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .timeline-date {
+      display: inline-block; padding: 0.25rem 0.75rem; border-radius: 6px;
+      background: rgba(58,123,213,0.08); color: var(--blue-500); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.75rem;
+    }
+    .timeline-title { font-size: 1.25rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.25rem; }
+    .timeline-school { color: var(--gray-500); font-size: 0.95rem; margin-bottom: 0.75rem; }
+    .timeline-detail { color: var(--gray-600); font-size: 0.9rem; }
+    .timeline-bullets { margin-top: 0.75rem; padding-left: 1.2rem; }
+    .timeline-bullets li { color: var(--gray-600); font-size: 0.88rem; margin-bottom: 0.4rem; line-height: 1.6; }
+    .timeline-bullets li::marker { color: var(--blue-500); }
+
+    /* ========== Experience Section ========== */
+    .experience { background: var(--gray-50); }
+    .exp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .exp-card {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--gray-200); transition: all 0.3s;
+    }
+    .exp-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .exp-card-header {
+      padding: 1.5rem 1.5rem 1rem; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .exp-card-header:hover { background: rgba(58,123,213,0.02); }
+    .exp-company { font-size: 1.1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.2rem; }
+    .exp-role { color: var(--blue-500); font-size: 0.9rem; font-weight: 600; }
+    .exp-period { color: var(--gray-400); font-size: 0.8rem; margin-top: 0.3rem; }
+    .exp-toggle {
+      width: 28px; height: 28px; border-radius: 8px; border: none;
+      background: var(--gray-100); cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s; color: var(--gray-500); font-size: 1rem;
+    }
+    .exp-toggle.open { background: var(--blue-500); color: #fff; }
+    .exp-card-body { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; padding: 0 1.5rem; }
+    .exp-card-body.open { max-height: 800px; padding: 0 1.5rem 1.5rem; }
+    .exp-subsection { margin-bottom: 1rem; }
+    .exp-subsection:last-child { margin-bottom: 0; }
+    .exp-subsection-title {
+      font-size: 0.88rem; font-weight: 700; color: var(--gray-700);
+      margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .exp-subsection-title::before {
+      content: ''; display: inline-block; width: 4px; height: 14px;
+      background: linear-gradient(180deg, var(--blue-500), var(--accent)); border-radius: 2px;
+    }
+    .exp-desc { color: var(--gray-600); font-size: 0.88rem; line-height: 1.7; margin-bottom: 0.5rem; }
+    .exp-highlights { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .exp-highlight {
+      padding: 0.2rem 0.7rem; border-radius: 6px; font-size: 0.75rem;
+      background: rgba(0,212,170,0.08); color: var(--accent); font-weight: 500; border: 1px solid rgba(0,212,170,0.15);
+    }
+
+    /* ========== Projects Section ========== */
+    .projects { background: var(--gray-100); }
+    .project-card {
+      background: #fff; border-radius: 20px; padding: 2.5rem;
+      border: 1px solid var(--gray-200); margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04); transition: all 0.3s;
+    }
+    .project-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .project-badge {
+      display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 700; margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--blue-500), var(--accent)); color: #fff;
+    }
+    .project-title { font-size: 1.4rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.5rem; }
+    .project-subtitle { color: var(--gray-500); font-size: 0.9rem; margin-bottom: 1rem; }
+    .project-desc { color: var(--gray-600); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.8; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .project-tech span {
+      padding: 0.25rem 0.75rem; border-radius: 6px; font-size: 0.8rem;
+      background: rgba(58,123,213,0.06); color: var(--blue-500); font-weight: 500;
+    }
+
+    /* ========== Contact Section ========== */
+    .contact { background: linear-gradient(135deg, var(--gray-900), #1e2a3a); color: #fff; }
+    .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .contact-card {
+      background: rgba(255,255,255,0.04); border-radius: 16px;
+      padding: 2rem; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;
+    }
+    .contact-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(0,212,170,0.2); transform: translateY(-2px); }
+    .contact-icon {
+      width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 1rem;
+      background: linear-gradient(135deg, var(--blue-500), var(--accent));
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    }
+    .contact-label { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .contact-value { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.9); word-break: break-all; }
+
+    /* ========== Footer ========== */
+    .footer {
+      background: var(--gray-900); text-align: center;
+      padding: 2rem; color: rgba(255,255,255,0.3); font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 64px; left: 0; right: 0; background: rgba(26,26,26,0.98); padding: 1rem; gap: 0;
+      }
+      .nav-links.open a { padding: 0.75rem 1rem; }
+      .nav-toggle { display: flex; }
+      .hero-inner { flex-direction: column; text-align: center; gap: 2rem; }
+      .hero-avatar { margin: 0 auto; }
+      .hero-name { font-size: 2.5rem; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .hero-tags { justify-content: center; }
+      .hero-contact { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 1.6rem; }
+    }
+
+    /* ========== Animations ========== */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; will-change: opacity, transform; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <div class="nav-logo">Z<span>.</span>HC</div>
+      <div class="nav-links" id="navLinks">
+        <a href="#hero" class="active">首页</a>
+        <a href="#about">关于我</a>
+        <a href="#education">教育背景</a>
+        <a href="#experience">实习经历</a>
+        <a href="#projects">项目竞赛</a>
+        <a href="#contact">联系我</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-avatar">
+        <img src="zjz.jpg" alt="张慧纯照片" />
+      </div>
+      <div class="hero-content">
+        <div class="hero-greeting">Hello, I'm</div>
+        <h1 class="hero-name">张慧纯</h1>
+        <p class="hero-desc">
+          北京科技大学硕士研究生，中共预备党员，拥有5段实习经历，横跨电商采销、AIGC运营、达人运营、公会运营及赛事运营，擅长数据分析、品类运营与新媒体内容创作。
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">电商运营</span>
+          <span class="hero-tag">数据分析</span>
+          <span class="hero-tag">AIGC</span>
+          <span class="hero-tag">新媒体运营</span>
+        </div>
+        <div class="hero-contact">
+          <a href="mailto:qingxinnixi@qq.com" class="btn-primary">📧 联系我</a>
+          <a href="#about" class="btn-outline">了解更多 ↓</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">↓ 向下滚动</div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">关于<span>我</span></h2>
+      <div class="section-line fade-in"></div>
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <p>
+            我是张慧纯，吉林长春人，<strong>中共预备党员</strong>，北京科技大学马克思主义学院中共党史党建专业硕士研究生（保研），本科就读于同校国际经济与贸易专业。
+          </p>
+          <p>
+            我拥有<strong>5段实习经历</strong>，涵盖京东电商采销、炫图AI AIGC运营、快手达人/公会运营及艾瞰未来赛事运营。在实践中锻炼了<strong>品类运营、数据分析、AI数字人直播搭建、新媒体内容创作</strong>等核心能力，具备从0到1的项目操盘经验。
+          </p>
+          <p>
+            曾获"互联网+"市一等奖、首都挑战杯银奖，擅长Excel数据透视、SQL查询、PPT制作与文案撰写，具备出色的逻辑思维与跨领域学习能力。
+          </p>
+          <a href="https://maipdf.cn/file/at693a859949ebb/pdf" target="_blank" class="portfolio-link">📂 查看可视化作品 →</a>
+        </div>
+        <div class="fade-in">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;color:var(--gray-700);">技能标签</h3>
+          <div class="skill-cloud">
+            <span class="skill-tag highlight">Excel（精通）</span>
+            <span class="skill-tag highlight">PPT（精通）</span>
+            <span class="skill-tag highlight">SQL</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">数据分析</span>
+            <span class="skill-tag">品类运营</span>
+            <span class="skill-tag">AIGC</span>
+            <span class="skill-tag">AI数字人直播</span>
+            <span class="skill-tag">新媒体运营</span>
+            <span class="skill-tag">短视频剪辑</span>
+            <span class="skill-tag">秀米排版</span>
+            <span class="skill-tag">X-mind</span>
+            <span class="skill-tag">CET-6</span>
+            <span class="skill-tag">商业计划书</span>
+            <span class="skill-tag">市场调研</span>
+            <span class="skill-tag">漏斗模型</span>
+            <span class="skill-tag">A/B测试</span>
+            <span class="skill-tag">数据看板</span>
+            <span class="skill-tag">BD拓展</span>
+            <span class="skill-tag">剪映</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="education" id="education">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">教育<span>背景</span></h2>
+      <div class="section-line fade-in"></div>
+      <div class="timeline fade-in">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-date">2025.09 - 2028.06</span>
+            <h3 class="timeline-title">硕士研究生 · 中共党史党建</h3>
+            <p class="timeline-school">北京科技大学 · 马克思主义学院</p>
+            <ul class="timeline-bullets">
+              <li>研一上学期平均成绩90.9</li>
+              <li>参与"青马先烽"宣讲团，产出中华民族共同体、政绩观宣讲稿件</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <span class="timeline-date">2021.09 - 2025.06</span>
+            <h3 class="timeline-title">本科 · 国际经济与贸易</h3>
+            <p class="timeline-school">北京科技大学 · 经济管理学院</p>
+            <ul class="timeline-bullets">
+              <li>获奖：人民三等奖学金、优秀毕业设计、"互联网+"市一等奖、首都挑战杯青振京郊赛道银奖</li>
+              <li>通过本校"青马人才"计划保研至马克思主义学院</li>
+              <li>大三前往华南理工大学交流学习</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="experience" id="experience">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">实习<span>经历</span></h2>
+      <div class="section-line fade-in"></div>
+      <div class="exp-grid">
+
+        <!-- 京东 -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="exp-company">北京京东世纪贸易有限公司</div>
+              <div class="exp-role">电商采销 - 袜子类目</div>
+              <div class="exp-period">2026.01 - 2026.05</div>
+            </div>
+            <button class="exp-toggle">▼</button>
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">品类运营</div>
+              <p class="exp-desc">通过竞对调研与BOM成本拆解，开板爆品同品上架并压低采购价。上架后利用AI软件对商品主图、卖点、评价进行优化。进行广告投放、直播、顺手买、优惠券等营销搭配，成功打造日销千单爆品10款，3个月整体带来10w+单量，50w+GMV成交，2%复购率提升。</p>
+            </div>
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">AI数字人直播搭建运营</div>
+              <p class="exp-desc">利用AI工具搭建数字人直播间，通过AIGC优化直播封面、生成脚本。打造"引流品+利润品+讲解品"货盘结构，周维度数据复盘，剔除不动销品，增选应季高销量商品。月环比浏览量增加10%，2个月产出GMV 20w+，单量5w+。</p>
+            </div>
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">营销活动操盘</div>
+              <p class="exp-desc">以最小亏损冲击高成交单量，活动前盘品做底价1元20双短袜，以单量压低供应商价格并争取置顶坑位，活动中实时关注亏损预防破价，活动1天售出50w双袜子，达成目标。</p>
+            </div>
+            <div class="exp-highlights">
+              <span class="exp-highlight">品类运营</span>
+              <span class="exp-highlight">AI数字人</span>
+              <span class="exp-highlight">AIGC</span>
+              <span class="exp-highlight">营销操盘</span>
+              <span class="exp-highlight">数据分析</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 炫图AI -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="exp-company">炫图AI（P图软件）</div>
+              <div class="exp-role">AIGC 新媒体运营</div>
+              <div class="exp-period">2025.08 - 2025.09</div>
+            </div>
+            <button class="exp-toggle">▼</button>
+          </div>
+          <div class="exp-card-body">
+            <p class="exp-desc">利用炫图AI进行P图AIGC创作，在抖音、小红书、快手、视频号、TikTok平台发布图文内容，利用剪映剪辑视频运营账号。模仿热点、结合IP、美甲、萌宠、换装等内容方向，产出千赞视频1条，百赞视频若干。</p>
+            <div class="exp-highlights">
+              <span class="exp-highlight">AIGC创作</span>
+              <span class="exp-highlight">短视频运营</span>
+              <span class="exp-highlight">剪映</span>
+              <span class="exp-highlight">多平台运营</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 快手达人运营 -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="exp-company">北京快手科技有限公司</div>
+              <div class="exp-role">电商业务 - 达人运营实习生</div>
+              <div class="exp-period">2025.05 - 2025.08</div>
+            </div>
+            <button class="exp-toggle">▼</button>
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">货找人产品设计</div>
+              <p class="exp-desc">为解决618带货主播选品不精准、GMV增长乏力问题，利用Excel工具与漏斗模型，以平台千万爆品为基础，筛选出符合达人用户画像、佣金高且退货率低的商品，帮助提升10%支付GMV。</p>
+            </div>
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">数据分析，赋能业务</div>
+              <p class="exp-desc">备战818，解决24年结算率低和开播次数下降问题。从主播和商品拆解，输出高价套装拆解降价、大小主播错峰直播的策略。助力实现25年818结算率提升10pp，结算GMV增长1000w+。</p>
+            </div>
+            <div class="exp-highlights">
+              <span class="exp-highlight">数据分析</span>
+              <span class="exp-highlight">漏斗模型</span>
+              <span class="exp-highlight">Excel</span>
+              <span class="exp-highlight">GMV增长</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 快手公会运营 -->
+        <div class="exp-card fade-in">
+          <div class="exp-card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="exp-company">北京快手科技有限公司</div>
+              <div class="exp-role">直播业务 - 公会运营实习生</div>
+              <div class="exp-period">2024.11 - 2025.04</div>
+            </div>
+            <button class="exp-toggle">▼</button>
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">数据看板搭建</div>
+              <p class="exp-desc">建立多维看板实时监测公会维度流水、开播、拉新变动，单月识别出10+次挂靠亏损，挖掘80余家潜力公会，实际产生流水增量300w+。产出月度季度review数据，支持小组规划。</p>
+            </div>
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">拉新公会（BD）</div>
+              <p class="exp-desc">利用F12及Python工具获取Boss及抖音公会联系方式形成线索库。利用政策返点优势进行外呼，通过优质案例打破对平台的固有认知。总共引入60家公会，成功激活25家，流水净增量80w+。</p>
+            </div>
+            <div class="exp-highlights">
+              <span class="exp-highlight">数据看板</span>
+              <span class="exp-highlight">BD拓展</span>
+              <span class="exp-highlight">Python</span>
+              <span class="exp-highlight">公会运营</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 艾瞰未来 -->
+        <div class="exp-card fade-in" style="grid-column: 1 / -1; max-width: calc(50% - 0.75rem); margin: 0 auto;">
+          <div class="exp-card-header" onclick="toggleCard(this)">
+            <div>
+              <div class="exp-company">艾瞰未来（北京）科技有限公司</div>
+              <div class="exp-role">新媒体 / 赛事运营实习生</div>
+              <div class="exp-period">2024.04 - 2024.10</div>
+            </div>
+            <button class="exp-toggle">▼</button>
+          </div>
+          <div class="exp-card-body">
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">公众号运营</div>
+              <p class="exp-desc">负责iCAN大赛公众号2024年创新之星、教育之星、优秀作品集三个专栏的内容策划。参访相关老师和学生，整理稿件照片，利用秀米排版。三周累计发布12篇公众号，阅读量1w+，涨粉2000人。</p>
+            </div>
+            <div class="exp-subsection">
+              <div class="exp-subsection-title">赛事对接</div>
+              <p class="exp-desc">运营中国移动梧桐杯大数据夏令营，负责课程视频剪辑及上架小鹅通，保证开营和后续录播课顺利进行。管理1个主赛道3个分赛道，负责群内问题答疑，活跃同学数量高达300人，70人完成打榜。</p>
+            </div>
+            <div class="exp-highlights">
+              <span class="exp-highlight">公众号运营</span>
+              <span class="exp-highlight">秀米排版</span>
+              <span class="exp-highlight">赛事管理</span>
+              <span class="exp-highlight">视频剪辑</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="projects" id="projects">
+    <div class="section-inner">
+      <h2 class="section-title fade-in">项目<span>/竞赛</span></h2>
+      <div class="section-line fade-in"></div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">互联网+ · 市一等奖</span>
+        <h3 class="project-title">厨房清理一体机 — 创新创业项目</h3>
+        <p class="project-subtitle">中国国际"互联网+"大学生创新创业大赛</p>
+        <p class="project-desc">
+          与工科学生协作打造厨房清理一体机，前期负责市场调研，产出3篇调研报告，为实体产品制作提供方向。统筹全队商业计划书撰写及PPT制作，撰写执行总结部分约1万字以及相应部分PPT制作10页。作为核心成员推动项目获市级一等奖。
+        </p>
+        <div class="project-tech">
+          <span>市场调研</span><span>商业计划书</span><span>PPT制作</span><span>团队统筹</span><span>产品设计</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <span class="project-badge">挑战杯 · 首都银奖</span>
+        <h3 class="project-title">青振京郊赛道 — 乡村振兴项目</h3>
+        <p class="project-subtitle">首都挑战杯大学生课外学术科技作品竞赛</p>
+        <p class="project-desc">
+          参与青振京郊赛道项目，聚焦乡村振兴领域，结合自身经济贸易专业背景进行市场分析与商业模式设计，助力项目获首都挑战杯银奖。
+        </p>
+        <div class="project-tech">
+          <span>乡村振兴</span><span>市场分析</span><span>商业模式</span><span>社会调研</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <div class="section-inner">
+      <h2 class="section-title fade-in" style="color:#fff;">联系<span style="color:var(--accent);">我</span></h2>
+      <div class="section-line fade-in"></div>
+      <div class="contact-grid">
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📧</div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">qingxinnixi@qq.com</div>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📱</div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">(+86) 13664408451</div>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📍</div>
+          <div class="contact-label">籍贯</div>
+          <div class="contact-value">吉林长春</div>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">🏛️</div>
+          <div class="contact-label">政治面貌</div>
+          <div class="contact-value">中共预备党员</div>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">🎓</div>
+          <div class="contact-label">院校</div>
+          <div class="contact-value">北京科技大学</div>
+        </div>
+        <div class="contact-card fade-in">
+          <div class="contact-icon">📊</div>
+          <div class="contact-label">可视化作品</div>
+          <div class="contact-value" style="font-size:0.8rem;">maipdf.cn/file/at693a859949ebb</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 张慧纯 · 以行动诠释热爱
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 100;
+        if (window.scrollY >= top) current = section.getAttribute('id');
+      });
+      navItems.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+      });
+    }
+    window.addEventListener('scroll', updateActiveNav);
+
+    // Card expand/collapse
+    function toggleCard(header) {
+      const card = header.closest('.exp-card');
+      const body = card.querySelector('.exp-card-body');
+      const toggle = card.querySelector('.exp-toggle');
+      const isOpen = body.classList.contains('open');
+
+      // Close all other cards
+      document.querySelectorAll('.exp-card-body.open').forEach(b => {
+        b.classList.remove('open');
+        b.closest('.exp-card').querySelector('.exp-toggle').classList.remove('open');
+        b.closest('.exp-card').querySelector('.exp-toggle').textContent = '▼';
+      });
+
+      if (!isOpen) {
+        body.classList.add('open');
+        toggle.classList.add('open');
+        toggle.textContent = '▲';
+      }
+    }
+
+    // Scroll-triggered fade-in animation
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
