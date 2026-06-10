@@ -1,0 +1,10 @@
+# 中间产物 - base64 文本（可由脚本重新生成）
+zjz_base64.txt
+
+# 辅助脚本（非网页核心）
+embed_image.ps1
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+.DS_Store
