@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="张慧纯个人简历 - 北京科技大学硕士研究生" />
-  <title>个人简历 - 张慧纯</title>
+  <title>个人简历 - 张慧纯 Gloria</title>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -65,29 +65,46 @@
     }
     .bubble-menu .logo-content span { color: var(--klein-bright); }
     .bubble-menu .toggle-bubble {
-      width: var(--bubble-size); height: var(--bubble-size);
-      border: none; cursor: pointer; padding: 0;
+      width: auto; min-height: var(--bubble-size); height: var(--bubble-size);
+      padding: 0 22px; border-radius: calc(var(--bubble-size) / 2);
+      border: none; cursor: pointer; gap: 12px;
+      display: flex; flex-direction: row; align-items: center; justify-content: center;
+      transition: box-shadow 0.3s, background 0.3s;
+    }
+    .bubble-menu .toggle-bubble:hover { background: var(--surface-2); }
+    .toggle-icon {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
     .bubble-menu .menu-line {
-      width: 22px; height: 2px; background: rgba(255,255,255,0.8);
-      border-radius: 2px; display: block; margin: 0 auto;
+      width: 20px; height: 2px; background: rgba(255,255,255,0.8);
+      border-radius: 2px; display: block;
       transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center;
     }
-    .bubble-menu .menu-line + .menu-line { margin-top: 6px; }
-    .bubble-menu .menu-line.short { width: 14px; }
-    .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(4px) rotate(45deg); }
-    .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-4px) rotate(-45deg); }
-    .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; }
-
-    /* Bubble Menu Overlay */
-    .bubble-overlay {
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(5,5,5,0.92); backdrop-filter: blur(20px);
-      display: none; align-items: center; justify-content: center;
-      pointer-events: none;
+    .bubble-menu .menu-line + .menu-line { margin-top: 5px; }
+    .bubble-menu .menu-line.short { width: 12px; }
+    .toggle-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; font-weight: 500; color: rgba(255,255,255,0.7);
+      letter-spacing: 0.06em; white-space: nowrap;
+      transition: color 0.3s;
     }
-    .bubble-overlay.active { display: flex; pointer-events: auto; }
+    .bubble-menu .toggle-bubble:hover .toggle-label { color: var(--klein-bright); }
+    .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(3.5px) rotate(45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; }
+    .bubble-menu .toggle-bubble.open .toggle-label { opacity: 0; width: 0; overflow: hidden; }
+
+    /* Bubble Menu Overlay — inline dropdown panel */
+    .bubble-overlay {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      padding-top: 5.5rem;
+      background: rgba(5,5,5,0.96); backdrop-filter: blur(24px);
+      display: none; pointer-events: none;
+      padding-bottom: 2.5rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      border-bottom: 1px solid rgba(0,47,167,0.12);
+    }
+    .bubble-overlay.active { display: block; pointer-events: auto; }
     .pill-list {
       list-style: none; margin: 0; padding: 0 2rem;
       display: flex; flex-wrap: wrap; gap: 1rem;
@@ -119,10 +136,16 @@
       .bubble-menu .bubble { --bubble-size: 56px; }
     }
     @media (max-width: 899px) {
-      .bubble-overlay { align-items: flex-start; padding-top: 120px; }
-      .pill-list { flex-direction: column; align-items: center; gap: 0.8rem; }
-      .pill-link { font-size: 1.1rem; padding: 0.8rem 2rem; }
+      .bubble-overlay { padding-top: 5rem; padding-bottom: 1.5rem; }
+      .pill-list { flex-direction: column; align-items: center; gap: 0.6rem; }
+      .pill-link { font-size: 1rem; padding: 0.7rem 1.8rem; }
       .pill-link:hover { transform: scale(1.06) !important; }
+      .toggle-label { font-size: 0.6rem; }
+    }
+    @media (max-width: 480px) {
+      .toggle-label { display: none; }
+      .bubble-menu .toggle-bubble { padding: 0; width: var(--bubble-size); border-radius: 50%; }
+      .toggle-icon { margin: 0; }
     }
 
     /* ========== Section Common ========== */
@@ -401,9 +424,12 @@
       <span class="logo-content">Z<span>.</span>HC</span>
     </div>
     <button type="button" class="bubble toggle-bubble" id="menuToggle" aria-label="Toggle menu" aria-pressed="false">
-      <span class="menu-line"></span>
-      <span class="menu-line short"></span>
-      <span class="menu-line"></span>
+      <div class="toggle-icon">
+        <span class="menu-line"></span>
+        <span class="menu-line short"></span>
+        <span class="menu-line"></span>
+      </div>
+      <span class="toggle-label">Know more about Gloria</span>
     </button>
   </nav>
 
@@ -451,7 +477,7 @@
       </div>
       <div class="hero-content">
         <div class="hero-greeting">HELLO, I'M</div>
-        <h1 class="hero-name">张慧纯</h1>
+        <h1 class="hero-name">张慧纯 <span class="accent">Gloria</span></h1>
         <p class="hero-desc">
           北京科技大学硕士研究生，中共预备党员，拥有5段实习经历，横跨电商采销、AIGC运营、达人运营、公会运营及赛事运营，擅长数据分析、品类运营与新媒体内容创作。
         </p>
@@ -795,17 +821,17 @@
       bubbleOverlay.classList.add('active');
       bubbleOverlay.setAttribute('aria-hidden', 'false');
 
-      // GSAP animation
+      // GSAP: panel slide-down + pill pop-in
       if (typeof gsap !== 'undefined') {
+        gsap.fromTo(bubbleOverlay, { y: -20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: 'power3.out' });
         gsap.set(pillLinks, { scale: 0, transformOrigin: '50% 50%' });
         gsap.set(pillLabels, { y: 20, autoAlpha: 0 });
         pillLinks.forEach((link, i) => {
-          const delay = i * 0.1 + gsap.utils.random(-0.03, 0.03);
-          const rotation = window.innerWidth >= 900 ? (parseFloat(getComputedStyle(link).getPropertyValue('--item-rot')) || 0) : 0;
+          const delay = 0.15 + i * 0.08 + gsap.utils.random(-0.02, 0.02);
           const tl = gsap.timeline({ delay });
-          tl.to(link, { scale: 1, duration: 0.5, ease: 'back.out(1.5)' });
+          tl.to(link, { scale: 1, duration: 0.45, ease: 'back.out(1.5)' });
           if (pillLabels[i]) {
-            tl.to(pillLabels[i], { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' }, '-=0.35');
+            tl.to(pillLabels[i], { y: 0, autoAlpha: 1, duration: 0.35, ease: 'power3.out' }, '-=0.3');
           }
         });
       }
@@ -817,12 +843,17 @@
       menuToggle.setAttribute('aria-pressed', 'false');
 
       if (typeof gsap !== 'undefined') {
-        gsap.to(pillLabels, { y: 20, autoAlpha: 0, duration: 0.2, ease: 'power3.in' });
+        gsap.to(pillLabels, { y: 20, autoAlpha: 0, duration: 0.15, ease: 'power3.in' });
         gsap.to(pillLinks, {
-          scale: 0, duration: 0.2, ease: 'power3.in',
+          scale: 0, duration: 0.15, ease: 'power3.in',
           onComplete: () => {
-            bubbleOverlay.classList.remove('active');
-            bubbleOverlay.setAttribute('aria-hidden', 'true');
+            gsap.to(bubbleOverlay, { y: -20, autoAlpha: 0, duration: 0.2, ease: 'power3.in',
+              onComplete: () => {
+                bubbleOverlay.classList.remove('active');
+                bubbleOverlay.setAttribute('aria-hidden', 'true');
+                gsap.set(bubbleOverlay, { clearProps: 'all' });
+              }
+            });
           }
         });
       } else {
@@ -845,6 +876,13 @@
     // Close menu on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isMenuOpen) closeMenu();
+    });
+
+    // Close menu on click outside
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !bubbleOverlay.contains(e.target) && !menuToggle.contains(e.target)) {
+        closeMenu();
+      }
     });
 
     // Card expand/collapse
