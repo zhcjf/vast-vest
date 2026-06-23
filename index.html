@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet" /></noscript>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <style>
     /* ========== Reset & Base ========== */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,33 +40,90 @@
       --text-dim: rgba(255,255,255,0.4);
     }
 
-    /* ========== Navigation ========== */
-    .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(5,5,5,0.88); backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(0,47,167,0.12); transition: box-shadow 0.3s;
-    }
-    .navbar.scrolled { box-shadow: 0 2px 30px rgba(0,47,167,0.15); }
-    .nav-inner {
-      max-width: 1200px; margin: 0 auto;
+    /* ========== Bubble Menu Navigation ========== */
+    .bubble-menu {
+      position: fixed; left: 0; right: 0; top: 1.5rem;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 64px;
+      gap: 16px; padding: 0 2rem; pointer-events: none; z-index: 1000;
     }
-    .nav-logo { font-size: 1.25rem; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-    .nav-logo span { color: var(--klein-bright); }
-    .nav-links { display: flex; gap: 0.25rem; }
-    .nav-links a {
-      color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 500;
-      padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.25s;
-      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+    .bubble-menu .bubble {
+      --bubble-size: 52px;
+      width: var(--bubble-size); height: var(--bubble-size);
+      border-radius: 50%; background: var(--surface);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,47,167,0.15);
+      display: inline-flex; align-items: center; justify-content: center;
+      pointer-events: auto; transition: box-shadow 0.3s;
     }
-    .nav-links a:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
-    .nav-links a.active { color: var(--klein-bright); background: rgba(0,47,167,0.1); }
-    .nav-toggle {
-      display: none; background: none; border: none; cursor: pointer;
-      flex-direction: column; gap: 5px; padding: 4px;
+    .bubble-menu .bubble:hover { box-shadow: 0 6px 28px rgba(0,47,167,0.3), 0 0 0 1px rgba(30,80,255,0.3); }
+    .bubble-menu .logo-bubble {
+      width: auto; min-height: var(--bubble-size); height: var(--bubble-size);
+      padding: 0 20px; border-radius: calc(var(--bubble-size) / 2); gap: 8px;
     }
-    .nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+    .bubble-menu .logo-content {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+    }
+    .bubble-menu .logo-content span { color: var(--klein-bright); }
+    .bubble-menu .toggle-bubble {
+      width: var(--bubble-size); height: var(--bubble-size);
+      border: none; cursor: pointer; padding: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .bubble-menu .menu-line {
+      width: 22px; height: 2px; background: rgba(255,255,255,0.8);
+      border-radius: 2px; display: block; margin: 0 auto;
+      transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: center;
+    }
+    .bubble-menu .menu-line + .menu-line { margin-top: 6px; }
+    .bubble-menu .menu-line.short { width: 14px; }
+    .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(4px) rotate(45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-4px) rotate(-45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; }
+
+    /* Bubble Menu Overlay */
+    .bubble-overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(5,5,5,0.92); backdrop-filter: blur(20px);
+      display: none; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .bubble-overlay.active { display: flex; pointer-events: auto; }
+    .pill-list {
+      list-style: none; margin: 0; padding: 0 2rem;
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      width: 100%; max-width: 900px; justify-content: center;
+      pointer-events: auto;
+    }
+    .pill-col { display: flex; justify-content: center; }
+    .pill-link {
+      --pill-bg: var(--surface); --pill-color: rgba(255,255,255,0.85);
+      --hover-bg: var(--klein); --hover-color: #fff;
+      --item-rot: 0deg;
+      padding: 1rem 2.5rem; font-size: 1.3rem; font-weight: 600;
+      font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+      border-radius: 999px; background: var(--pill-bg); color: var(--pill-color);
+      text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,47,167,0.15);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      will-change: transform; white-space: nowrap;
+    }
+    .pill-link:hover {
+      transform: rotate(var(--item-rot)) scale(1.08) !important;
+      background: var(--hover-bg); color: var(--hover-color);
+      box-shadow: 0 8px 32px rgba(0,47,167,0.5), 0 0 0 1px rgba(30,80,255,0.4);
+    }
+    .pill-link:active { transform: rotate(var(--item-rot)) scale(0.95) !important; }
+    .pill-label { display: inline-block; will-change: transform, opacity; }
+    @media (min-width: 900px) {
+      .pill-link { transform: rotate(var(--item-rot)); }
+      .bubble-menu .bubble { --bubble-size: 56px; }
+    }
+    @media (max-width: 899px) {
+      .bubble-overlay { align-items: flex-start; padding-top: 120px; }
+      .pill-list { flex-direction: column; align-items: center; gap: 0.8rem; }
+      .pill-link { font-size: 1.1rem; padding: 0.8rem 2rem; }
+      .pill-link:hover { transform: scale(1.06) !important; }
+    }
 
     /* ========== Section Common ========== */
     section { padding: 6rem 2rem; }
@@ -317,13 +375,6 @@
 
     /* ========== Responsive ========== */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-links.open {
-        display: flex; flex-direction: column; position: absolute;
-        top: 64px; left: 0; right: 0; background: rgba(5,5,5,0.98); padding: 1rem; gap: 0;
-      }
-      .nav-links.open a { padding: 0.75rem 1rem; }
-      .nav-toggle { display: flex; }
       .hero-inner { flex-direction: column; text-align: center; gap: 2rem; }
       .hero-avatar { margin: 0 auto; }
       .hero-name { font-size: 2.5rem; }
@@ -334,6 +385,7 @@
       .exp-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .section-title { font-size: 1.6rem; }
+      .bubble-menu { padding: 0 1rem; top: 1rem; }
     }
 
     /* ========== Animations ========== */
@@ -343,23 +395,53 @@
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <div class="nav-logo">Z<span>.</span>HC</div>
-      <div class="nav-links" id="navLinks">
-        <a href="#hero" class="active">HOME</a>
-        <a href="#about">ABOUT</a>
-        <a href="#education">EDU</a>
-        <a href="#experience">WORK</a>
-        <a href="#projects">PROJECTS</a>
-        <a href="#contact">CONTACT</a>
-      </div>
-      <button class="nav-toggle" id="navToggle" aria-label="菜单">
-        <span></span><span></span><span></span>
-      </button>
+  <!-- Bubble Menu Navigation -->
+  <nav class="bubble-menu" id="bubbleMenu" aria-label="Main navigation">
+    <div class="bubble logo-bubble" aria-label="Logo">
+      <span class="logo-content">Z<span>.</span>HC</span>
     </div>
+    <button type="button" class="bubble toggle-bubble" id="menuToggle" aria-label="Toggle menu" aria-pressed="false">
+      <span class="menu-line"></span>
+      <span class="menu-line short"></span>
+      <span class="menu-line"></span>
+    </button>
   </nav>
+
+  <!-- Bubble Menu Overlay -->
+  <div class="bubble-overlay" id="bubbleOverlay" aria-hidden="true">
+    <ul class="pill-list" role="menu" aria-label="Menu links">
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#hero" aria-label="Home" class="pill-link" style="--item-rot:-6deg; --hover-bg:#002FA7; --hover-color:#fff">
+          <span class="pill-label">首页</span>
+        </a>
+      </li>
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#about" aria-label="About" class="pill-link" style="--item-rot:5deg; --hover-bg:#1E50FF; --hover-color:#fff">
+          <span class="pill-label">关于</span>
+        </a>
+      </li>
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#education" aria-label="Education" class="pill-link" style="--item-rot:-4deg; --hover-bg:#0E0E12; --hover-color:#1E50FF">
+          <span class="pill-label">教育</span>
+        </a>
+      </li>
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#experience" aria-label="Work" class="pill-link" style="--item-rot:7deg; --hover-bg:#002FA7; --hover-color:#fff">
+          <span class="pill-label">实习</span>
+        </a>
+      </li>
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#projects" aria-label="Projects" class="pill-link" style="--item-rot:-5deg; --hover-bg:#1E50FF; --hover-color:#fff">
+          <span class="pill-label">项目</span>
+        </a>
+      </li>
+      <li class="pill-col" role="none">
+        <a role="menuitem" href="#contact" aria-label="Contact" class="pill-link" style="--item-rot:4deg; --hover-bg:#0E0E12; --hover-color:#1E50FF">
+          <span class="pill-label">联系</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
@@ -699,37 +781,71 @@
 
   <!-- JavaScript -->
   <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    // Bubble Menu with GSAP
+    const menuToggle = document.getElementById('menuToggle');
+    const bubbleOverlay = document.getElementById('bubbleOverlay');
+    const pillLinks = document.querySelectorAll('.pill-link');
+    const pillLabels = document.querySelectorAll('.pill-label');
+    let isMenuOpen = false;
 
-    // Mobile nav toggle
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-    });
-    navLinks.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => navLinks.classList.remove('open'));
-    });
+    function openMenu() {
+      isMenuOpen = true;
+      menuToggle.classList.add('open');
+      menuToggle.setAttribute('aria-pressed', 'true');
+      bubbleOverlay.classList.add('active');
+      bubbleOverlay.setAttribute('aria-hidden', 'false');
 
-    // Active nav link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links a');
-    function updateActiveNav() {
-      let current = '';
-      sections.forEach(section => {
-        const top = section.offsetTop - 100;
-        if (window.scrollY >= top) current = section.getAttribute('id');
-      });
-      navItems.forEach(a => {
-        a.classList.remove('active');
-        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
-      });
+      // GSAP animation
+      if (typeof gsap !== 'undefined') {
+        gsap.set(pillLinks, { scale: 0, transformOrigin: '50% 50%' });
+        gsap.set(pillLabels, { y: 20, autoAlpha: 0 });
+        pillLinks.forEach((link, i) => {
+          const delay = i * 0.1 + gsap.utils.random(-0.03, 0.03);
+          const rotation = window.innerWidth >= 900 ? (parseFloat(getComputedStyle(link).getPropertyValue('--item-rot')) || 0) : 0;
+          const tl = gsap.timeline({ delay });
+          tl.to(link, { scale: 1, duration: 0.5, ease: 'back.out(1.5)' });
+          if (pillLabels[i]) {
+            tl.to(pillLabels[i], { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' }, '-=0.35');
+          }
+        });
+      }
     }
-    window.addEventListener('scroll', updateActiveNav);
+
+    function closeMenu() {
+      isMenuOpen = false;
+      menuToggle.classList.remove('open');
+      menuToggle.setAttribute('aria-pressed', 'false');
+
+      if (typeof gsap !== 'undefined') {
+        gsap.to(pillLabels, { y: 20, autoAlpha: 0, duration: 0.2, ease: 'power3.in' });
+        gsap.to(pillLinks, {
+          scale: 0, duration: 0.2, ease: 'power3.in',
+          onComplete: () => {
+            bubbleOverlay.classList.remove('active');
+            bubbleOverlay.setAttribute('aria-hidden', 'true');
+          }
+        });
+      } else {
+        bubbleOverlay.classList.remove('active');
+        bubbleOverlay.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    menuToggle.addEventListener('click', () => {
+      isMenuOpen ? closeMenu() : openMenu();
+    });
+
+    // Close menu on pill click
+    pillLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close menu on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMenuOpen) closeMenu();
+    });
 
     // Card expand/collapse
     function toggleCard(header) {
@@ -737,14 +853,11 @@
       const body = card.querySelector('.exp-card-body');
       const toggle = card.querySelector('.exp-toggle');
       const isOpen = body.classList.contains('open');
-
-      // Close all other cards
       document.querySelectorAll('.exp-card-body.open').forEach(b => {
         b.classList.remove('open');
         b.closest('.exp-card').querySelector('.exp-toggle').classList.remove('open');
         b.closest('.exp-card').querySelector('.exp-toggle').textContent = '▼';
       });
-
       if (!isOpen) {
         body.classList.add('open');
         toggle.classList.add('open');
