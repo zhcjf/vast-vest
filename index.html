@@ -84,15 +84,15 @@
     .bubble-menu .menu-line.short { width: 12px; }
     .toggle-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; font-weight: 500; color: rgba(255,255,255,0.7);
-      letter-spacing: 0.06em; white-space: nowrap;
-      transition: color 0.3s;
+      font-size: 0.85rem; font-weight: 600; color: var(--klein-bright);
+      letter-spacing: 0.04em; white-space: nowrap;
+      transition: color 0.3s, opacity 0.3s;
     }
-    .bubble-menu .toggle-bubble:hover .toggle-label { color: var(--klein-bright); }
-    .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(3.5px) rotate(45deg); }
-    .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-3.5px) rotate(-45deg); }
-    .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; }
-    .bubble-menu .toggle-bubble.open .toggle-label { opacity: 0; width: 0; overflow: hidden; }
+    .bubble-menu .toggle-bubble:hover .toggle-label { color: #fff; }
+    .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(7px) rotate(45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-7px) rotate(-45deg); }
+    .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; transform: scaleX(0); }
+    .bubble-menu .toggle-bubble.open .toggle-label { opacity: 0; width: 0; overflow: hidden; margin: 0; }
 
     /* Bubble Menu Overlay — inline dropdown panel */
     .bubble-overlay {
@@ -108,10 +108,10 @@
     .pill-list {
       list-style: none; margin: 0; padding: 0 2rem;
       display: flex; flex-wrap: wrap; gap: 1rem;
-      width: 100%; max-width: 900px; justify-content: center;
+      width: 100%; max-width: 900px; justify-content: flex-end;
       pointer-events: auto;
     }
-    .pill-col { display: flex; justify-content: center; }
+    .pill-col { display: flex; justify-content: flex-end; }
     .pill-link {
       --pill-bg: var(--surface); --pill-color: rgba(255,255,255,0.85);
       --hover-bg: var(--klein); --hover-color: #fff;
@@ -122,7 +122,7 @@
       text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,47,167,0.15);
       display: flex; align-items: center; justify-content: center;
       position: relative; transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-      will-change: transform; white-space: nowrap;
+      will-change: transform; white-space: nowrap; transform-origin: right center;
     }
     .pill-link:hover {
       transform: rotate(var(--item-rot)) scale(1.08) !important;
@@ -137,10 +137,10 @@
     }
     @media (max-width: 899px) {
       .bubble-overlay { padding-top: 5rem; padding-bottom: 1.5rem; }
-      .pill-list { flex-direction: column; align-items: center; gap: 0.6rem; }
+      .pill-list { flex-direction: column; align-items: flex-end; gap: 0.6rem; }
       .pill-link { font-size: 1rem; padding: 0.7rem 1.8rem; }
       .pill-link:hover { transform: scale(1.06) !important; }
-      .toggle-label { font-size: 0.6rem; }
+      .toggle-label { font-size: 0.7rem; }
     }
     @media (max-width: 480px) {
       .toggle-label { display: none; }
@@ -821,17 +821,17 @@
       bubbleOverlay.classList.add('active');
       bubbleOverlay.setAttribute('aria-hidden', 'false');
 
-      // GSAP: panel slide-down + pill pop-in
+      // GSAP: panel slide-down + ripple from top-right
       if (typeof gsap !== 'undefined') {
-        gsap.fromTo(bubbleOverlay, { y: -20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: 'power3.out' });
-        gsap.set(pillLinks, { scale: 0, transformOrigin: '50% 50%' });
-        gsap.set(pillLabels, { y: 20, autoAlpha: 0 });
+        gsap.fromTo(bubbleOverlay, { y: -16, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' });
+        gsap.set(pillLinks, { scale: 0, x: 80, transformOrigin: 'right center' });
+        gsap.set(pillLabels, { y: 15, autoAlpha: 0 });
         pillLinks.forEach((link, i) => {
-          const delay = 0.15 + i * 0.08 + gsap.utils.random(-0.02, 0.02);
+          const delay = 0.1 + i * 0.07;
           const tl = gsap.timeline({ delay });
-          tl.to(link, { scale: 1, duration: 0.45, ease: 'back.out(1.5)' });
+          tl.to(link, { scale: 1, x: 0, duration: 0.5, ease: 'back.out(1.4)' });
           if (pillLabels[i]) {
-            tl.to(pillLabels[i], { y: 0, autoAlpha: 1, duration: 0.35, ease: 'power3.out' }, '-=0.3');
+            tl.to(pillLabels[i], { y: 0, autoAlpha: 1, duration: 0.3, ease: 'power3.out' }, '-=0.3');
           }
         });
       }
@@ -843,15 +843,18 @@
       menuToggle.setAttribute('aria-pressed', 'false');
 
       if (typeof gsap !== 'undefined') {
-        gsap.to(pillLabels, { y: 20, autoAlpha: 0, duration: 0.15, ease: 'power3.in' });
-        gsap.to(pillLinks, {
-          scale: 0, duration: 0.15, ease: 'power3.in',
+        gsap.to(pillLabels, { y: 15, autoAlpha: 0, duration: 0.15, ease: 'power3.in' });
+        // Reverse ripple: last pill first
+        const reversedLinks = Array.from(pillLinks).reverse();
+        gsap.to(reversedLinks, {
+          scale: 0, x: 80, duration: 0.2, ease: 'power3.in', stagger: 0.04,
           onComplete: () => {
-            gsap.to(bubbleOverlay, { y: -20, autoAlpha: 0, duration: 0.2, ease: 'power3.in',
+            gsap.to(bubbleOverlay, { y: -16, autoAlpha: 0, duration: 0.2, ease: 'power3.in',
               onComplete: () => {
                 bubbleOverlay.classList.remove('active');
                 bubbleOverlay.setAttribute('aria-hidden', 'true');
                 gsap.set(bubbleOverlay, { clearProps: 'all' });
+                gsap.set(pillLinks, { clearProps: 'all' });
               }
             });
           }
