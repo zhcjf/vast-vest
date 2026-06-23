@@ -94,26 +94,25 @@
     .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; transform: scaleX(0); }
     .bubble-menu .toggle-bubble.open .toggle-label { opacity: 0; width: 0; overflow: hidden; margin: 0; }
 
-    /* Bubble Menu Overlay — floating pills only, no panel */
+    /* Bubble Menu Overlay — floating pills, no panel */
     .bubble-overlay {
-      position: fixed; top: 0; right: 0; bottom: 0; width: 50%;
-      z-index: 999; display: none; pointer-events: none;
-      padding: 7rem 3rem 3rem 3rem;
+      position: fixed; top: 5.5rem; right: 2rem; z-index: 999;
+      display: none; pointer-events: none;
     }
-    .bubble-overlay.active { display: flex; pointer-events: auto; align-items: flex-start; justify-content: center; }
+    .bubble-overlay.active { display: block; pointer-events: auto; }
     .pill-list {
       list-style: none; margin: 0; padding: 0;
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.2rem 1.6rem; width: 100%; max-width: 420px;
+      gap: 1rem 1.4rem; width: auto; max-width: 360px;
       pointer-events: auto;
     }
     .pill-col { display: flex; }
-    .pill-col:nth-child(1) { justify-content: flex-end; }
-    .pill-col:nth-child(2) { justify-content: flex-start; }
-    .pill-col:nth-child(3) { justify-content: flex-start; }
-    .pill-col:nth-child(4) { justify-content: flex-end; }
-    .pill-col:nth-child(5) { justify-content: flex-end; }
-    .pill-col:nth-child(6) { justify-content: flex-start; }
+    .pill-col:nth-child(1) { justify-content: flex-end; transform: rotate(-4deg) translateY(0px); }
+    .pill-col:nth-child(2) { justify-content: flex-start; transform: rotate(3deg) translateY(12px); }
+    .pill-col:nth-child(3) { justify-content: flex-start; transform: rotate(-2deg) translateY(-6px); }
+    .pill-col:nth-child(4) { justify-content: flex-end; transform: rotate(5deg) translateY(8px); }
+    .pill-col:nth-child(5) { justify-content: flex-end; transform: rotate(-3deg) translateY(-4px); }
+    .pill-col:nth-child(6) { justify-content: flex-start; transform: rotate(4deg) translateY(10px); }
     .pill-link {
       --pill-bg: var(--surface); --pill-color: rgba(255,255,255,0.85);
       --hover-bg: var(--klein); --hover-color: #fff;
@@ -121,7 +120,8 @@
       padding: 0.9rem 2rem; font-size: 1.2rem; font-weight: 600;
       font-family: 'DM Serif Display', 'Noto Serif SC', serif;
       border-radius: 999px; background: var(--pill-bg); color: var(--pill-color);
-      text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,47,167,0.15);
+      text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border: 1.5px solid rgba(255,255,255,0.35);
       display: flex; align-items: center; justify-content: center;
       position: relative; transition: background 0.3s, color 0.3s, box-shadow 0.3s;
       will-change: transform; white-space: nowrap; transform-origin: center center;
@@ -129,7 +129,8 @@
     .pill-link:hover {
       transform: rotate(var(--item-rot)) scale(1.08) !important;
       background: var(--hover-bg); color: var(--hover-color);
-      box-shadow: 0 8px 32px rgba(0,47,167,0.5), 0 0 0 1px rgba(30,80,255,0.4);
+      box-shadow: 0 8px 32px rgba(0,47,167,0.5);
+      border-color: rgba(255,255,255,0.7);
     }
     .pill-link:active { transform: rotate(var(--item-rot)) scale(0.95) !important; }
     .pill-label { display: inline-block; will-change: transform, opacity; }
@@ -138,16 +139,16 @@
       .bubble-menu .bubble { --bubble-size: 56px; }
     }
     @media (max-width: 899px) {
-      .bubble-overlay { width: 55%; padding: 6rem 2rem 2rem 2rem; }
-      .pill-list { gap: 0.8rem 1.2rem; }
+      .bubble-overlay { right: 1.5rem; top: 5rem; }
+      .pill-list { gap: 0.7rem 1rem; max-width: 300px; }
       .pill-link { font-size: 1rem; padding: 0.7rem 1.5rem; }
       .pill-link:hover { transform: scale(1.06) !important; }
       .toggle-label { font-size: 0.9rem; }
     }
     @media (max-width: 480px) {
-      .bubble-overlay { width: 70%; padding: 6rem 1.5rem 2rem 1.5rem; }
-      .pill-list { grid-template-columns: 1fr; gap: 0.6rem; }
-      .pill-col, .pill-col:nth-child(n) { justify-content: center !important; }
+      .bubble-overlay { right: 1rem; top: 5rem; }
+      .pill-list { grid-template-columns: 1fr; gap: 0.6rem; max-width: 200px; }
+      .pill-col, .pill-col:nth-child(n) { justify-content: center !important; transform: none !important; }
       .toggle-label { display: none; }
       .bubble-menu .toggle-bubble { padding: 0; width: var(--bubble-size); border-radius: 50%; }
       .toggle-icon { margin: 0; }
