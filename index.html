@@ -84,11 +84,11 @@
     .bubble-menu .menu-line.short { width: 12px; }
     .toggle-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.1rem; font-weight: 700; color: var(--klein-bright);
+      font-size: 1.1rem; font-weight: 700; color: #fff;
       letter-spacing: -0.5px; white-space: nowrap;
       transition: color 0.3s, opacity 0.3s;
     }
-    .bubble-menu .toggle-bubble:hover .toggle-label { color: #fff; }
+    .bubble-menu .toggle-bubble:hover .toggle-label { color: var(--klein-bright); }
     .bubble-menu .toggle-bubble.open .menu-line:first-child { transform: translateY(7px) rotate(45deg); }
     .bubble-menu .toggle-bubble.open .menu-line:last-child { transform: translateY(-7px) rotate(-45deg); }
     .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; transform: scaleX(0); }
@@ -98,13 +98,16 @@
     .bubble-overlay {
       position: fixed; top: 5.5rem; right: 2rem; z-index: 999;
       display: none; pointer-events: none;
+      height: 66vh;
     }
-    .bubble-overlay.active { display: block; pointer-events: auto; }
+    .bubble-overlay.active { display: flex; pointer-events: auto; align-items: flex-start; }
     .pill-list {
       list-style: none; margin: 0; padding: 0;
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1rem 1.4rem; width: auto; max-width: 360px;
-      pointer-events: auto;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 0.4rem 1.4rem; width: auto; max-width: 360px;
+      height: 100%; pointer-events: auto;
+      align-content: space-between;
     }
     .pill-col { display: flex; }
     .pill-col:nth-child(1) { justify-content: flex-end; transform: rotate(-4deg) translateY(0px); }
@@ -139,15 +142,15 @@
       .bubble-menu .bubble { --bubble-size: 56px; }
     }
     @media (max-width: 899px) {
-      .bubble-overlay { right: 1.5rem; top: 5rem; }
-      .pill-list { gap: 0.7rem 1rem; max-width: 300px; }
+      .bubble-overlay { right: 1.5rem; top: 5rem; height: 60vh; }
+      .pill-list { gap: 0.3rem 1rem; max-width: 300px; }
       .pill-link { font-size: 1rem; padding: 0.7rem 1.5rem; }
       .pill-link:hover { transform: scale(1.06) !important; }
       .toggle-label { font-size: 0.9rem; }
     }
     @media (max-width: 480px) {
-      .bubble-overlay { right: 1rem; top: 5rem; }
-      .pill-list { grid-template-columns: 1fr; gap: 0.6rem; max-width: 200px; }
+      .bubble-overlay { right: 1rem; top: 5rem; height: 55vh; }
+      .pill-list { grid-template-columns: 1fr; grid-template-rows: repeat(6, 1fr); gap: 0; max-width: 200px; }
       .pill-col, .pill-col:nth-child(n) { justify-content: center !important; transform: none !important; }
       .toggle-label { display: none; }
       .bubble-menu .toggle-bubble { padding: 0; width: var(--bubble-size); border-radius: 50%; }
