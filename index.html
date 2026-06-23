@@ -94,15 +94,13 @@
     .bubble-menu .toggle-bubble.open .menu-line.short { opacity: 0; transform: scaleX(0); }
     .bubble-menu .toggle-bubble.open .toggle-label { opacity: 0; width: 0; overflow: hidden; margin: 0; }
 
-    /* Bubble Menu Overlay — right-side panel over hero */
+    /* Bubble Menu Overlay — floating pills only, no panel */
     .bubble-overlay {
       position: fixed; top: 0; right: 0; bottom: 0; width: 50%;
       z-index: 999; display: none; pointer-events: none;
-      background: rgba(5,5,5,0.88); backdrop-filter: blur(28px);
-      padding: 6rem 3rem 3rem 3rem;
-      border-left: 1px solid rgba(0,47,167,0.1);
+      padding: 7rem 3rem 3rem 3rem;
     }
-    .bubble-overlay.active { display: flex; pointer-events: auto; align-items: center; justify-content: center; }
+    .bubble-overlay.active { display: flex; pointer-events: auto; align-items: flex-start; justify-content: center; }
     .pill-list {
       list-style: none; margin: 0; padding: 0;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -140,14 +138,14 @@
       .bubble-menu .bubble { --bubble-size: 56px; }
     }
     @media (max-width: 899px) {
-      .bubble-overlay { width: 60%; padding: 5rem 2rem 2rem 2rem; }
+      .bubble-overlay { width: 55%; padding: 6rem 2rem 2rem 2rem; }
       .pill-list { gap: 0.8rem 1.2rem; }
       .pill-link { font-size: 1rem; padding: 0.7rem 1.5rem; }
       .pill-link:hover { transform: scale(1.06) !important; }
       .toggle-label { font-size: 0.9rem; }
     }
     @media (max-width: 480px) {
-      .bubble-overlay { width: 75%; padding: 5rem 1.5rem 2rem 1.5rem; }
+      .bubble-overlay { width: 70%; padding: 6rem 1.5rem 2rem 1.5rem; }
       .pill-list { grid-template-columns: 1fr; gap: 0.6rem; }
       .pill-col, .pill-col:nth-child(n) { justify-content: center !important; }
       .toggle-label { display: none; }
@@ -828,15 +826,14 @@
       bubbleOverlay.classList.add('active');
       bubbleOverlay.setAttribute('aria-hidden', 'false');
 
-      // GSAP: right panel slide-in + ripple from top-right corner
+      // GSAP: pills ripple in from top-right, no panel
       if (typeof gsap !== 'undefined') {
-        gsap.fromTo(bubbleOverlay, { x: 80, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' });
-        gsap.set(pillLinks, { scale: 0, y: 40, transformOrigin: 'center center' });
-        gsap.set(pillLabels, { y: 15, autoAlpha: 0 });
+        gsap.set(pillLinks, { scale: 0, y: 30, transformOrigin: 'center center' });
+        gsap.set(pillLabels, { y: 12, autoAlpha: 0 });
         pillLinks.forEach((link, i) => {
           const col = i % 2;
           const row = Math.floor(i / 2);
-          const delay = 0.15 + row * 0.1 + col * 0.05;
+          const delay = 0.05 + row * 0.08 + col * 0.04;
           const tl = gsap.timeline({ delay });
           tl.to(link, { scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' });
           if (pillLabels[i]) {
@@ -852,20 +849,14 @@
       menuToggle.setAttribute('aria-pressed', 'false');
 
       if (typeof gsap !== 'undefined') {
-        gsap.to(pillLabels, { y: 15, autoAlpha: 0, duration: 0.15, ease: 'power3.in' });
-        // Reverse ripple: bottom rows first, right column first
+        gsap.to(pillLabels, { y: 12, autoAlpha: 0, duration: 0.12, ease: 'power3.in' });
         const reversedLinks = Array.from(pillLinks).reverse();
         gsap.to(reversedLinks, {
-          scale: 0, y: 40, duration: 0.2, ease: 'power3.in', stagger: 0.04,
+          scale: 0, y: 30, duration: 0.18, ease: 'power3.in', stagger: 0.03,
           onComplete: () => {
-            gsap.to(bubbleOverlay, { x: 80, autoAlpha: 0, duration: 0.25, ease: 'power3.in',
-              onComplete: () => {
-                bubbleOverlay.classList.remove('active');
-                bubbleOverlay.setAttribute('aria-hidden', 'true');
-                gsap.set(bubbleOverlay, { clearProps: 'all' });
-                gsap.set(pillLinks, { clearProps: 'all' });
-              }
-            });
+            bubbleOverlay.classList.remove('active');
+            bubbleOverlay.setAttribute('aria-hidden', 'true');
+            gsap.set(pillLinks, { clearProps: 'all' });
           }
         });
       } else {
